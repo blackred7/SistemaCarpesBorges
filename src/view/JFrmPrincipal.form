@@ -19,7 +19,7 @@
                   <KeyStroke key="Ctrl+U"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/cliente.png"/>
+                  <Image iconType="3" name="/imagens/usuario.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="117"/>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
@@ -49,7 +49,7 @@
                   <KeyStroke key="Ctrl+F"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/cliente_1.png"/>
+                  <Image iconType="3" name="/imagens/3d_group.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="70"/>
                 <Property name="text" type="java.lang.String" value="Fornecedor"/>
@@ -64,10 +64,13 @@
                   <KeyStroke key="Ctrl+Alt+F"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/cliente_1.png"/>
+                  <Image iconType="3" name="/imagens/client_user.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="102"/>
                 <Property name="text" type="java.lang.String" value="Funcionario"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[32667, 32767]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMmuFuncionariosActionPerformed"/>
@@ -79,7 +82,7 @@
                   <KeyStroke key="Ctrl+A"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/cliente.png"/>
+                  <Image iconType="3" name="/imagens/task.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="97"/>
                 <Property name="text" type="java.lang.String" value="Administrador"/>
@@ -122,7 +125,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMmutransicoes">
+        <Menu class="javax.swing.JMenu" name="jMmuCompras_Vendas">
           <Properties>
             <Property name="mnemonic" type="int" value="109"/>
             <Property name="text" type="java.lang.String" value="Movimentos"/>
@@ -131,12 +134,13 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+T"/>
+                  <KeyStroke key="Ctrl+V"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/produto.png"/>
+                  <Image iconType="3" name="/imagens/stats_pie_chart.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="transi&#xe7;&#xf5;es"/>
+                <Property name="mnemonic" type="int" value="99"/>
+                <Property name="text" type="java.lang.String" value="Compras_Vendas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
