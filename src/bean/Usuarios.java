@@ -15,7 +15,7 @@ public class Usuarios {
     private int idusuario;
     private String nome;
     private String apelido;
-    private int cpf;
+    private String cpf;
       private int nivel; 
       private String ativo;
       private String senha;
@@ -66,14 +66,14 @@ public class Usuarios {
     /**
      * @return the cpf
      */
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
     /**
      * @param cpf the cpf to set
      */
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

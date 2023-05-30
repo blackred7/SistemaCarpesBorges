@@ -12,6 +12,7 @@ import java.util.Date;
  * @author User
  */
 public class Produto_vendas {
+    private int idProduto_vendas;
     private int fk_produto;
      private int fk_venda;
     private Date data_hora;
@@ -101,5 +102,19 @@ public class Produto_vendas {
      */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    /**
+     * @return the idProduto_vendas
+     */
+    public int getIdProduto_vendas() {
+        return idProduto_vendas;
+    }
+
+    /**
+     * @param idProduto_vendas the idProduto_vendas to set
+     */
+    public void setIdProduto_vendas(int idProduto_vendas) {
+        this.idProduto_vendas = idProduto_vendas;
     }
 }

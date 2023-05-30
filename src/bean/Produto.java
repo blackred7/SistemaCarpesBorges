@@ -14,10 +14,14 @@ public class Produto {
     private String nome;
      private String descricao;
      private String tipo;
-     private int preco;
+     private String preco;
      private String foto;
      private int quantidade;
 
+    public Produto() {
+    }
+
+     
     /**
      * @return the id_produto
      */
@@ -77,14 +81,14 @@ public class Produto {
     /**
      * @return the preco
      */
-    public int getPreco() {
+    public String getPreco() {
         return preco;
     }
 
     /**
      * @param preco the preco to set
      */
-    public void setPreco(int preco) {
+    public void setPreco(String preco) {
         this.preco = preco;
     }
 
@@ -114,6 +118,10 @@ public class Produto {
      */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public void setPreco(int i, int i0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      
 }

@@ -5,12 +5,24 @@
  */
 package view;
 
+import bean.Produto;
+import bean.Usuarios;
+import dao.ProdutoDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author u04127224290
  */
 public class JDlgProdutos extends javax.swing.JDialog {
-
+boolean incl; 
+ 
     /**
      * Creates new form JDlgUsuarios
      */
@@ -28,7 +40,7 @@ public class JDlgProdutos extends javax.swing.JDialog {
         JTxtQuantidade.setText("");
         JTxtDescricao.setText("");
         JTxtTipo.setText("");
-        JTxtPreco.setText("");
+        jFmtPreco.setText("");
         
     }
     
@@ -38,7 +50,7 @@ public class JDlgProdutos extends javax.swing.JDialog {
         JTxtTipo.setEnabled(true);
         JTxtQuantidade.setEnabled(true);
         JTxtDescricao.setEnabled(true);
-        JTxtPreco.setEnabled(true);
+        jFmtPreco.setEnabled(true);
         
         
         jBtnConfirmar.setEnabled(true);
@@ -57,7 +69,7 @@ public class JDlgProdutos extends javax.swing.JDialog {
         JTxtTipo.setEnabled(false);
         JTxtQuantidade.setEnabled(false);
         JTxtDescricao.setEnabled(false);
-        JTxtPreco.setEnabled(false);
+        jFmtPreco.setEnabled(false);
         
         
         jBtnConfirmar.setEnabled(false);
@@ -69,6 +81,40 @@ public class JDlgProdutos extends javax.swing.JDialog {
         jBtnPesquisar.setEnabled(true);
     }
 
+    public Produto viawbean(){
+     
+        Produto produto = new Produto();
+        
+         //int\/
+        int id = Integer.valueOf(JTxtCodigo.getText());
+        produto.setId_produto(id);
+         int quan = Integer.valueOf(JTxtQuantidade.getText());
+        produto.setQuantidade(quan);
+         //string\/
+        produto.setNome(JTxtNome.getText());
+        produto.setTipo(JTxtTipo.getText());
+        produto.setDescricao(JTxtDescricao.getText());
+        produto.setPreco(jFmtPreco.getText());
+       
+      
+        return produto;
+    }
+    public Produto beanviaw(Produto produto){
+         //int\/
+       JTxtCodigo.setText( String.valueOf(produto.getId_produto()) );
+        jFmtPreco.setText( String.valueOf(produto.getPreco()) );
+        JTxtQuantidade.setText( String.valueOf(produto.getQuantidade()) );
+         //string\/
+       JTxtNome.setText(produto.getNome());
+        JTxtDescricao.setText(produto.getDescricao());
+         JTxtTipo.setText(produto.getTipo());
+         jFmtPreco.setText( produto.getPreco() );
+      
+        return produto;
+      
+     
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,11 +140,11 @@ public class JDlgProdutos extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         JTxtTipo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        JTxtPreco = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         JTxtQuantidade = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTxtDescricao = new javax.swing.JTextArea();
+        jFmtPreco = new javax.swing.JFormattedTextField();
 
         jLabel4.setText("Apelido");
 
@@ -168,12 +214,6 @@ public class JDlgProdutos extends javax.swing.JDialog {
 
         jLabel5.setText("preço");
 
-        JTxtPreco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTxtPrecoActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("quantidade");
 
         JTxtQuantidade.addActionListener(new java.awt.event.ActionListener() {
@@ -207,15 +247,8 @@ public class JDlgProdutos extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JTxtCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(JTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -223,40 +256,53 @@ public class JDlgProdutos extends javax.swing.JDialog {
                                 .addComponent(JTxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(JTxtTipo))
+                                .addComponent(jLabel3)
+                                .addComponent(JTxtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(JTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jFmtPreco)
+                                    .addGap(21, 21, 21))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(JTxtCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(JTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(399, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JTxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JTxtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JTxtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jFmtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -279,40 +325,66 @@ public class JDlgProdutos extends javax.swing.JDialog {
         // TODO add your handling code here:
         habilitar();
         limparCampos();
+         incl= true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
         habilitar();
+         incl= false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
+        int resp =  JOptionPane.showConfirmDialog(null,  "deseja excluir?", "Pergunta", JOptionPane.YES_NO_OPTION);
+       if(resp == JOptionPane.YES_OPTION){
+       Produto produto = viawbean();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.delete(produto);
+      }else{
+           JOptionPane.showMessageDialog(null, "exclusão cancelada");
+           desabilitar();
+          
+       }
         habilitar();
         limparCampos();
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+        if (incl ==true) {
+           Produto produto = viawbean();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.insert(produto);
+        }else{ 
+            Produto produto = viawbean();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.update(produto);}
         desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
         desabilitar();
+         JOptionPane.showMessageDialog(null, "operação cancelada");
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
+            String resp =  JOptionPane.showInputDialog(null, "Insira a chave primaria", "pesquisa");
+        
+
+          ProdutoDAO produtoDAO = new ProdutoDAO();
+          int id = Integer.valueOf(resp);
+          
+         Produto produto= (Produto) produtoDAO.list(id);
+         
+          beanviaw(produto);
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     private void JTxtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTxtCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JTxtCodigoActionPerformed
-
-    private void JTxtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTxtPrecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JTxtPrecoActionPerformed
 
     private void JTxtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTxtQuantidadeActionPerformed
         // TODO add your handling code here:
@@ -395,7 +467,6 @@ public class JDlgProdutos extends javax.swing.JDialog {
     private javax.swing.JTextField JTxtCodigo;
     private javax.swing.JTextArea JTxtDescricao;
     private javax.swing.JTextField JTxtNome;
-    private javax.swing.JTextField JTxtPreco;
     private javax.swing.JTextField JTxtQuantidade;
     private javax.swing.JTextField JTxtTipo;
     private javax.swing.JButton jBtnAlterar;
@@ -404,6 +475,7 @@ public class JDlgProdutos extends javax.swing.JDialog {
     private javax.swing.JButton jBtnExcluir;
     private javax.swing.JButton jBtnIncluir;
     private javax.swing.JButton jBtnPesquisar;
+    private javax.swing.JFormattedTextField jFmtPreco;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

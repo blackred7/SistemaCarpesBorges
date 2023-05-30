@@ -5,12 +5,25 @@
  */
 package view;
 
+import bean.Fornecedor;
+
+import dao.FornecedorDAO;
+
+import java.text.ParseException;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author u04127224290
  */
 public class JDlgFornecedor extends javax.swing.JDialog {
-
+boolean incl; 
+  MaskFormatter maskcpf;
     /**
      * Creates new form JDlgUsuarios
      */
@@ -20,6 +33,12 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         setTitle("Fornecedores");
         setLocationRelativeTo(null);
         desabilitar();
+        try {
+            maskcpf = new MaskFormatter("###.###.###-##");
+        } catch (ParseException ex) {
+            Logger.getLogger(JDlgFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jFmtCpf.setFormatterFactory(new DefaultFormatterFactory(maskcpf));
     }
     
     public void limparCampos() {
@@ -28,10 +47,10 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         JtextEmail.setText("");
         JTxtEndereco.setText("");
       
-        jChbAtivo.setText("");
+        
         jFmtCpf.setText("");
   
-        jChbAtivo.setSelected(false);
+      
     }
     
     public void habilitar () {
@@ -40,7 +59,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         JtextEmail.setEnabled(true);
         jFmtCpf.setEnabled(true);
         JTxtEndereco.setEnabled(true);
-        jChbAtivo.setEnabled(true);
+        
      
         
         jBtnConfirmar.setEnabled(true);
@@ -58,7 +77,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         jTxtNome.setEnabled(false);
         JtextEmail.setEnabled(false);
         jFmtCpf.setEnabled(false);
-        jChbAtivo.setEnabled(false);
+       
         JTxtEndereco.setEnabled(false);
         jBtnConfirmar.setEnabled(false);
         jBtnCancelar.setEnabled(false);
@@ -68,7 +87,36 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         jBtnExcluir.setEnabled(true);
         jBtnPesquisar.setEnabled(true);
     }
-
+ public Fornecedor viawbean(){
+      //int\/
+        Fornecedor fornecedor = new Fornecedor();
+        int id = Integer.valueOf(jTxtCodigo.getText());
+        fornecedor.setId_fornecedor(id);
+        
+         //string\/
+        fornecedor.setNome(jTxtNome.getText());
+        fornecedor.setEnd(JTxtEndereco.getText());
+        fornecedor.setCpf_cnpj(jFmtCpf.getText());
+         fornecedor.setEmail(JtextEmail.getText());
+         
+        
+       
+        return fornecedor;
+    }
+    public Fornecedor beanviaw(Fornecedor fornecedor){
+         //int\/
+       jTxtCodigo.setText( String.valueOf(fornecedor.getId_fornecedor()) );
+        //string\/
+       jTxtNome.setText(fornecedor.getNome());
+        JTxtEndereco.setText(fornecedor.getEnd());
+         jFmtCpf.setText(fornecedor.getCpf_cnpj());
+         JtextEmail.setText(fornecedor.getEmail());
+       
+        return fornecedor;
+      
+     
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +136,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jFmtCpf = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        jChbAtivo = new javax.swing.JCheckBox();
         jBtnIncluir = new javax.swing.JButton();
         jBtnAlterar = new javax.swing.JButton();
         jBtnExcluir = new javax.swing.JButton();
@@ -97,7 +144,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         jBtnPesquisar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         JTxtEndereco = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
 
         jLabel4.setText("Apelido");
 
@@ -128,12 +174,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         });
 
         jLabel5.setText("CPF_CNPJ");
-
-        jChbAtivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChbAtivoActionPerformed(evt);
-            }
-        });
 
         jBtnIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/incluir.png"))); // NOI18N
         jBtnIncluir.setText("Incluir");
@@ -185,8 +225,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
 
         jLabel6.setText("Endereço");
 
-        jLabel7.setText("Ativo");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,10 +245,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 407, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jChbAtivo)
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +255,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel5)
-                                            .addComponent(jFmtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jFmtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
@@ -240,7 +274,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(JTxtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JTxtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -255,11 +289,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jChbAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -292,31 +322,65 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         // TODO add your handling code here:
         habilitar();
         limparCampos();
+          incl= true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+       incl= false;
         habilitar();
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        habilitar();
-        limparCampos();
+        
+         int resp =  JOptionPane.showConfirmDialog(null,  "deseja excluir?", "Pergunta", JOptionPane.YES_NO_OPTION);
+       if(resp == JOptionPane.YES_OPTION){
+       Fornecedor fornecedor = viawbean();
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        fornecedorDAO.delete(fornecedor);
+      }else{
+           JOptionPane.showMessageDialog(null, "exclusão cancelada");
+           desabilitar();
+          
+       }
+       
+        limparCampos();       
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+          if (incl ==true) {
+              Fornecedor fornecedor = viawbean();
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        fornecedorDAO.insert(fornecedor);
+        }else{ 
+             Fornecedor fornecedor = viawbean();
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        fornecedorDAO.update(fornecedor);}
+        
+        
         desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
         desabilitar();
+         JOptionPane.showMessageDialog(null, "operação cancelada");
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
+         String resp =  JOptionPane.showInputDialog(null, "Insira a chave primaria", "pesquisa");
+        
+
+          FornecedorDAO fornecedorDAO = new FornecedorDAO();
+          int id = Integer.valueOf(resp);
+          
+         Fornecedor fornecedor= (Fornecedor) fornecedorDAO.list(id);
+         
+          beanviaw(fornecedor);
+        
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     private void jTxtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtCodigoActionPerformed
@@ -330,10 +394,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     private void JtextEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtextEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JtextEmailActionPerformed
-
-    private void jChbAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChbAtivoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jChbAtivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,7 +453,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     private javax.swing.JButton jBtnExcluir;
     private javax.swing.JButton jBtnIncluir;
     private javax.swing.JButton jBtnPesquisar;
-    private javax.swing.JCheckBox jChbAtivo;
     private javax.swing.JFormattedTextField jFmtCpf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -401,7 +460,6 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTxtCodigo;
     private javax.swing.JTextField jTxtNome;

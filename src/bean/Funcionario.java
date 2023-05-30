@@ -11,7 +11,7 @@ package bean;
 public class Funcionario {
     private int idFuncinario;
     private String nome;
-     private int cpf;
+     private String cpf;
      private String email;
      private int numero_tel;
      private String foto;
@@ -49,14 +49,14 @@ public class Funcionario {
     /**
      * @return the cpf
      */
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
     /**
      * @param cpf the cpf to set
      */
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

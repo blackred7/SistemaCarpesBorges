@@ -6,14 +6,23 @@ package view;
  * and open the template in the editor.
  */
 
+import bean.Adm;
+import dao.AdmDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import view.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
  * @author u04127224290
  */
 public class JDlgAdm extends javax.swing.JDialog {
-
+ boolean incl; 
     /**
      * Creates new form JDlgUsuarios
      */
@@ -23,6 +32,7 @@ public class JDlgAdm extends javax.swing.JDialog {
         setTitle("Administradores");
         setLocationRelativeTo(null);
         desabilitar();
+        
     }
     
     public void limparCampos() {
@@ -36,6 +46,7 @@ public class JDlgAdm extends javax.swing.JDialog {
     
     public void habilitar () {
         JTxtCodigo.setEnabled(true);
+        jCboFk.setEnabled(true);
         JTxtNome.setEnabled(true);
         JTxtSexo.setEnabled(true);
         JTxtEmail.setEnabled(true);
@@ -58,7 +69,7 @@ public class JDlgAdm extends javax.swing.JDialog {
         JTxtSexo.setEnabled(false);
         JTxtEmail.setEnabled(false);
         JTxtTelefone.setEnabled(false);
-     
+      jCboFk.setEnabled(false);
        
         
         jBtnConfirmar.setEnabled(false);
@@ -68,6 +79,34 @@ public class JDlgAdm extends javax.swing.JDialog {
         jBtnAlterar.setEnabled(true);
         jBtnExcluir.setEnabled(true);
         jBtnPesquisar.setEnabled(true);
+    }
+     public Adm viawbean(){
+     //int\/
+        Adm adm = new Adm();
+        int id = Integer.valueOf(JTxtCodigo.getText());
+        adm.setIdadm(id);
+        int tel = Integer.valueOf(JTxtTelefone.getText());
+        adm.setNumero_tel(tel);
+        //string\/
+        adm.setNome(JTxtNome.getText());
+        adm.setEmail(JTxtEmail.getText());
+        adm.setSexo(JTxtSexo.getText());
+        adm.setFk_usuario(1);
+        
+        return adm;
+    }
+    public Adm beanviaw(Adm adm){
+        //int\/
+       JTxtCodigo.setText( String.valueOf(adm.getIdadm() ) );
+       JTxtTelefone.setText( String.valueOf(adm.getNumero_tel()) );
+        //string\/
+       JTxtNome.setText(adm.getNome());
+        JTxtEmail.setText(adm.getEmail());
+        JTxtSexo.setText(adm.getSexo());
+        jCboFk.setSelectedIndex(adm.getFk_usuario());
+        return adm;
+      
+     
     }
 
     /**
@@ -97,6 +136,7 @@ public class JDlgAdm extends javax.swing.JDialog {
         jBtnConfirmar = new javax.swing.JButton();
         jBtnCancelar = new javax.swing.JButton();
         jBtnPesquisar = new javax.swing.JButton();
+        jCboFk = new javax.swing.JComboBox<>();
 
         jLabel4.setText("Apelido");
 
@@ -178,6 +218,8 @@ public class JDlgAdm extends javax.swing.JDialog {
             }
         });
 
+        jCboFk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,6 +249,8 @@ public class JDlgAdm extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(JTxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jCboFk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(16, 16, 16)
@@ -239,7 +283,9 @@ public class JDlgAdm extends javax.swing.JDialog {
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(JTxtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JTxtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCboFk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -264,33 +310,67 @@ public class JDlgAdm extends javax.swing.JDialog {
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
-        habilitar();
+         habilitar();
         limparCampos();
+        incl= true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
         habilitar();
+        incl= false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
+        int resp =  JOptionPane.showConfirmDialog(null,  "deseja excluir?", "Pergunta", JOptionPane.YES_NO_OPTION);
+       if(resp == JOptionPane.YES_OPTION){
+       Adm adm = viawbean();
+        AdmDAO admDAO = new AdmDAO();
+        admDAO.delete(adm);
+      }else{
+           JOptionPane.showMessageDialog(null, "exclusão cancelada");
+           desabilitar();
+          
+       }
         habilitar();
-        limparCampos();
+        limparCampos();       
+                             
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+        if (incl ==true) {
+            Adm adm = viawbean();
+        AdmDAO admDAO = new AdmDAO();
+        admDAO.insert(adm);
+        }else{ 
+            Adm adm = viawbean();
+        AdmDAO admDAO = new AdmDAO();
+        admDAO.update(adm);}
+        
+        
         desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
         desabilitar();
+        JOptionPane.showMessageDialog(null, "operação cancelada");
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
+          String resp =  JOptionPane.showInputDialog(null, "Insira a chave primaria", "pesquisa");
+        
+
+          AdmDAO admDAO = new AdmDAO();
+          int id = Integer.valueOf(resp);
+          
+         Adm adm= (Adm) admDAO.list(id);
+         
+          beanviaw(adm);
+          
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     private void JTxtSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTxtSexoActionPerformed
@@ -422,6 +502,7 @@ public class JDlgAdm extends javax.swing.JDialog {
     private javax.swing.JButton jBtnExcluir;
     private javax.swing.JButton jBtnIncluir;
     private javax.swing.JButton jBtnPesquisar;
+    private javax.swing.JComboBox<String> jCboFk;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

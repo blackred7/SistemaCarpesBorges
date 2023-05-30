@@ -10,10 +10,11 @@ package bean;
  * @author User
  */
 public class Fornecedor {
+    
      private int id_fornecedor;
     private String nome;
      private String email;
-     private int cpf_cnpj;
+     private String cpf_cnpj;
      private String end;
 
     /**
@@ -61,14 +62,14 @@ public class Fornecedor {
     /**
      * @return the cpf_cnpj
      */
-    public int getCpf_cnpj() {
+    public String getCpf_cnpj() {
         return cpf_cnpj;
     }
 
     /**
      * @param cpf_cnpj the cpf_cnpj to set
      */
-    public void setCpf_cnpj(int cpf_cnpj) {
+    public void setCpf_cnpj(String cpf_cnpj) {
         this.cpf_cnpj = cpf_cnpj;
     }
 

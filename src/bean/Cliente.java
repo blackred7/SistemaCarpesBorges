@@ -13,7 +13,7 @@ public class Cliente {
      private int id_cliente;
     private String nome;
      private int indentificacao;
-     private int premiun;
+     private String premiun;
      private String email;
      private String criminal;
      private String end;
@@ -72,14 +72,14 @@ public class Cliente {
     /**
      * @return the premiun
      */
-    public int getPremiun() {
+    public String getPremiun() {
         return premiun;
     }
 
     /**
      * @param premiun the premiun to set
      */
-    public void setPremiun(int premiun) {
+    public void setPremiun(String premiun) {
         this.premiun = premiun;
     }
 

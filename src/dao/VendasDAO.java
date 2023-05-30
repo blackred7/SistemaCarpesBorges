@@ -5,6 +5,7 @@
  */
 package dao;
 
+import bean.Usuarios;
 import teste.testeJDBC;
 import bean.Vendas;
 import java.awt.List;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,12 +37,11 @@ public class VendasDAO extends DAO_Abstract{
             Connection cnt;
             cnt = DriverManager.getConnection(url, use, password);
             PreparedStatement pstm;
-            String sql = "insert into usuario values(?,?,?)";
+            String sql = "insert into vendas values(?,?,?)";
             pstm = cnt.prepareStatement(sql);
             pstm.setInt(1, vendas.getId_vendas());
-            pstm.setDate(2, (java.sql.Date) new Date(2023, 01, 01)); 
-            pstm.setInt(3, vendas.getFk_cliente());
-             pstm.setInt(4, vendas.getFk_funcionario());
+            pstm.setInt(2, vendas.getFk_cliente());
+             pstm.setInt(3, vendas.getFk_funcionario());
             
             
             pstm.executeUpdate();
@@ -52,17 +53,87 @@ public class VendasDAO extends DAO_Abstract{
 
     @Override
     public void update(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        Vendas vendas = (Vendas) object;
+       try{
+            String url, use, password;
+            url = "jdbc:mysql://10.7.0.51:33062/db_maycon_borges";
+            use = "maycon_borges";
+            password = "maycon_borges"; 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection cnt;
+            cnt = DriverManager.getConnection(url, use, password);
+            PreparedStatement pstm;
+            String sql = "update vendas set fk_cliente=?,fk_funcionario=?"
+                    + " where id_vendas=?";
+            pstm = cnt.prepareStatement(sql);
+            pstm.setInt(3, vendas.getId_vendas());
+            pstm.setInt(1, vendas.getFk_cliente());
+             pstm.setInt(2, vendas.getFk_funcionario());
+            
+            
+            pstm.executeUpdate();
+        }catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(testeJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }
 
     @Override
-    public void delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     public void delete(Object object) {
+      
+         Vendas vendas = (Vendas) object;
+       try{
+            String url, use, password;
+            url = "jdbc:mysql://10.7.0.51:33062/db_maycon_borges";
+            use = "maycon_borges";
+            password = "maycon_borges"; 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection cnt;
+            cnt = DriverManager.getConnection(url, use, password);
+            PreparedStatement pstm;
+            String sql = "delete from vendas where id_vendas=?";
+            pstm = cnt.prepareStatement(sql);
+            pstm.setInt(1, vendas.getId_vendas());
+            
+            pstm.executeUpdate();
+        }catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(testeJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }
 
     @Override
-    public Object list(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     public Object list(int id) {
+        Vendas vendas = new Vendas();
+       try{
+            String url, use, password;
+            url = "jdbc:mysql://10.7.0.51:33062/db_maycon_borges";
+            use = "maycon_borges";
+            password = "maycon_borges"; 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection cnt;
+            cnt = DriverManager.getConnection(url, use, password);
+            PreparedStatement pstm;
+            String sql = "select * from usuario where id_vendas=?";
+            pstm = cnt.prepareStatement(sql);
+            pstm.setInt(1, id);
+            
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()==true){
+            vendas.setId_vendas(rs.getInt("id_vendas"));
+            vendas.setFk_funcionario(rs.getInt("fk_funcionario"));
+           vendas.setFk_cliente(rs.getInt("fk_cliente"));
+
+            }
+            
+        }catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(testeJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vendas;
+        
     }
 
     @Override
@@ -72,10 +143,12 @@ public class VendasDAO extends DAO_Abstract{
     public static void main(String[] args) {
        Vendas vendas = new Vendas();
         vendas.setId_vendas(3);
+        vendas.setFk_funcionario(1);
+        vendas.setFk_cliente(11);
         
         
         VendasDAO vendasDAO = new VendasDAO();
-       vendasDAO.insert(vendas);
+       vendasDAO.delete(vendas);
         System.out.println(vendas);
     }
 }

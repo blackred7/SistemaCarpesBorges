@@ -10,6 +10,7 @@ import java.util.Date;
  * @author User
  */
 public class Produto_compra {
+    private  int idproduto_compra;
      private int fk_produto;
      private int fk_compra;
     private Date data_hora;
@@ -99,5 +100,19 @@ public class Produto_compra {
      */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    /**
+     * @return the idproduto_compra
+     */
+    public int getIdproduto_compra() {
+        return idproduto_compra;
+    }
+
+    /**
+     * @param idproduto_compra the idproduto_compra to set
+     */
+    public void setIdproduto_compra(int idproduto_compra) {
+        this.idproduto_compra = idproduto_compra;
     }
 }
